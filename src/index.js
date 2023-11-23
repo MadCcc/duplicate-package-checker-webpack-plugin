@@ -103,11 +103,12 @@ DuplicatePackageCheckerPlugin.prototype.apply = function(compiler) {
       if (!isSeen) {
         let entry = { version, path: modulePath };
 
-        let issuer =
-          module.issuer && module.issuer.resource
-            ? cleanPathRelativeToContext(module.issuer.resource)
+        const issuer = compilation.moduleGraph.getIssuer(module);
+
+        entry.issuer =
+          issuer && issuer.resource
+            ? cleanPathRelativeToContext(issuer.resource)
             : null;
-        entry.issuer = issuer;
 
         modules[pkg.name].push(entry);
       }
@@ -190,6 +191,7 @@ DuplicatePackageCheckerPlugin.prototype.apply = function(compiler) {
             "Check how you can resolve duplicate packages: "
           )}\nhttps://github.com/darrenscerri/duplicate-package-checker-webpack-plugin#resolving-duplicate-packages-in-your-bundle\n`;
         }
+        console.log(error);
         array.push(new Error(error));
       });
     }

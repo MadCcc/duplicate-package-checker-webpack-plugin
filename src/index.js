@@ -191,8 +191,7 @@ DuplicatePackageCheckerPlugin.prototype.apply = function(compiler) {
             "Check how you can resolve duplicate packages: "
           )}\nhttps://github.com/darrenscerri/duplicate-package-checker-webpack-plugin#resolving-duplicate-packages-in-your-bundle\n`;
         }
-        console.log(error);
-        array.push(new Error(error));
+        callback(new Error(error));
       });
     }
 
